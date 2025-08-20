@@ -1,59 +1,63 @@
 ﻿using UnityEngine;
+using TMPro;
 
-네, 스크립트를 요청하신 것을 확인했습니다. 이전 답변에서 실수로 이미지를 생성했습니다. 죄송합니다.
-
-요청하신 대로 좌우 이동 속도에 비례하여 좌우로 기울어지는 틸트 기능을 추가한 유니티 스크립트입니다.
-
-📜 유니티 플레이어 이동 스크립트 (틸트 기능 추가)
-C#
-
-using UnityEngine;
-
-public class PlayerMovement : MonoBehaviour
+/// <summary>
+/// 카드 상세 정보(이름, 설명)를 표시하는 UI를 관리합니다.
+/// 활성화되면 마우스 커서를 따라다닙니다.
+/// </summary>
+public class CardDetailView : MonoBehaviour
 {
-    // ✨ 에디터에서 조절할 수 있는 변수들
-    [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 5.0f; // 기본 이동 속도
-    [SerializeField] private float slowModeSpeedMultiplier = 0.5f; // 저속 모드 속도 배율 (0.5는 절반 속도)
+    [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private TextMeshProUGUI descriptionText;
+    [SerializeField] private GameObject contentObject; // 패널 자체를 끄고 켜기 위한 참조
 
-    [Header("Tilt Settings")]
-    [SerializeField] private float maxTiltAngle = 15.0f; // 최대 기울기 각도
-    [SerializeField] private float tiltSpeed = 5.0f; // 기울기가 부드러워지는 속도
+    [Header("마우스 추적 설정")]
+    [Tooltip("마우스 커서로부터 UI가 얼마나 떨어져 표시될지 정합니다.")]
+    [SerializeField] private Vector2 followOffset = new Vector2(20f, -20f);
 
-    private float currentMoveSpeed;
+    private bool isFollowing = false; // 현재 마우스를 추적 중인지 여부
+    private RectTransform rectTransform; // 위치를 옮길 UI의 RectTransform
 
-    void Update()
+    private void Awake()
     {
-        // 🕹️ 키보드 입력 처리
-        float h = Input.GetAxis("Horizontal"); // 좌우 방향키 (A/D, Left/Right)
-        float v = Input.GetAxis("Vertical");   // 상하 방향키 (W/S, Up/Down)
+        // RectTransform 컴포넌트를 미리 찾아둡니다.
+        rectTransform = GetComponent<RectTransform>();
 
-        Vector3 movement = new Vector3(h, 0f, v).normalized; // 대각선 이동 시 속도 일정하게 유지
+        Hide();
+    }
 
-        // 🚀 이동 속도 계산
-        // Shift 키가 눌렸는지 확인하여 현재 속도 설정
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+    private void Update()
+    {
+        // isFollowing 상태일 때만 매 프레임 위치를 갱신합니다.
+        if (isFollowing)
         {
-            currentMoveSpeed = moveSpeed * slowModeSpeedMultiplier;
+            // 현재 마우스 위치에 오프셋을 더한 값으로 UI 위치를 설정합니다.
+            // UI 캔버스가 Screen Space - Overlay 모드일 때 잘 작동합니다.
+            rectTransform.position = (Vector2)Input.mousePosition + followOffset;
         }
-        else
-        {
-            currentMoveSpeed = moveSpeed;
-        }
+    }
 
-        // 🏃‍♂️ 캐릭터 이동
-        transform.Translate(movement * currentMoveSpeed * Time.deltaTime, Space.World);
+    /// <summary>
+    /// 카드 데이터를 받아와 UI 텍스트를 채우고 패널을 보여줍니다.
+    /// </summary>
+    public void Show(CardDataSO cardData)
+    {
+        if (cardData == null) return;
 
-        // 🤸‍♂️ 좌우 틸트 (기울기) 계산 및 적용
-        // 목표 기울기 각도 계산: 수평 입력값(h)에 최대 기울기 각도를 곱합니다.
-        float targetTilt = h * -maxTiltAngle;
+        nameText.text = cardData.cardName;
+        descriptionText.text = cardData.description;
+        contentObject.SetActive(true);
 
-        // 현재 기울기 각도: 현재 회전값의 z축 각도를 가져옵니다.
-        float currentTilt = transform.localRotation.eulerAngles.z;
-        if (currentTilt > 180) currentTilt -= 360; // 0~360 범위를 -180~180으로 변환
+        isFollowing = true; // 마우스 추적 시작
+    }
 
-        // 목표 각도로 부드럽게 회전
-        float newTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * tiltSpeed);
-        transform.localRotation = Quaternion.Euler(0, 0, newTilt);
+    /// <summary>
+    /// 상세 정보 패널을 숨깁니다.
+    /// </summary>
+    public void Hide()
+    {
+        contentObject.SetActive(false);
+
+        isFollowing = false; // 마우스 추적 중지
     }
 }

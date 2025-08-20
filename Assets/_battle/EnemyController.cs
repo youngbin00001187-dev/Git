@@ -154,52 +154,25 @@ public class EnemyController : UnitController
             IntentManager.Instance.RemoveIntentHighlight(_currentIntentTiles);
         }
 
-        bool actionPreparedAndQueued = false;
-
+        // ▼▼▼ [올바른 버전] 불필요한 확인 없이, 무조건 액션을 준비하고 실행 큐에 넣습니다. ▼▼▼
         if (nextReferenceCard != null && nextTargetTile != null)
         {
-            GameAction firstActionInSequence = nextReferenceCard.actionSequence.FirstOrDefault();
-            bool isValidTarget = true;
-            if (firstActionInSequence is MoveAction)
+            foreach (var action in nextReferenceCard.actionSequence)
             {
-                Tile targetTileComponent = nextTargetTile.GetComponent<Tile>();
-                if (targetTileComponent == null || !GridManager.Instance.IsTileWalkable(targetTileComponent.gridPosition))
-                {
-                    isValidTarget = false;
-
-                    // ▼▼▼ [신규] 이동 포기 시 리코일 실행 로직 ▼▼▼
-                    StartCoroutine(RecoilCoroutine(nextTargetTile.transform.position));
-                    Debug.Log($"<color=yellow>[EnemyController] {name}이(가) 이동 경로가 막혀 리코일합니다.</color>");
-                }
+                action.Prepare(this, nextTargetTile);
             }
-
-            if (isValidTarget)
+            if (GameManager.Instance != null)
             {
-                foreach (var action in nextReferenceCard.actionSequence)
-                {
-                    action.Prepare(this, nextTargetTile);
-                }
-                if (GameManager.Instance != null)
-                {
-                    GameManager.Instance.AddActionsToQueue(nextReferenceCard.actionSequence);
-                }
-                actionPreparedAndQueued = true;
+                GameManager.Instance.AddActionsToQueue(nextReferenceCard.actionSequence);
             }
         }
+        // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
         actionsTakenThisRound++;
         currentActionIndex = (currentActionIndex + 1) % enemyData.actionPattern.Count;
         isActing = false;
 
-        if (actionPreparedAndQueued)
-        {
-            yield return new WaitForSeconds(0.1f);
-        }
-        else
-        {
-            // 이동이 막혀 리코일만 한 경우, 약간의 딜레이를 주어 연출을 보여줍니다.
-            yield return new WaitForSeconds(0.3f);
-        }
+        yield return new WaitForSeconds(0.1f); // 액션 실행 사이의 최소 딜레이
     }
 
     public void ResetRoundState()

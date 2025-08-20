@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2592c099d53bb8d43aae9d16620ead36, type: 3}
-  m_Name: "\uCDE8\uAC1D"
+  m_Name: "\uB291\uB300"
   m_EditorClassIdentifier: 
-  enemyName: "\uCDE8\uAC1D"
-  enemyPrefab: {fileID: 2272630744910987935, guid: 487850e87ab6d0245b9512bf601a2d9c, type: 3}
-  maxHealth: 10
+  enemyName: "\uB291\uB300"
+  enemyPrefab: {fileID: 2272630744910987935, guid: c915df2c07b79cf4e96e01bc4f8a3e5a, type: 3}
+  maxHealth: 50
   actionsPerTurn: 2
   actionPattern:
-  - actionName: 
-    actionType: 0
-    movementType: 0
-    value: 0
-    referenceCard: {fileID: 11400000, guid: f5a7581a818e1b047b6f8d58b4731348, type: 2}
   - actionName: 
     actionType: 1
     movementType: 0
     value: 0
-    referenceCard: {fileID: 11400000, guid: 25558d8cfff5c374ab0fcae4e43ab906, type: 2}
+    referenceCard: {fileID: 11400000, guid: 24dc737ab678fa4459cc5682f0494d9b, type: 2}
+  - actionName: 
+    actionType: 1
+    movementType: 0
+    value: 0
+    referenceCard: {fileID: 11400000, guid: 42b2591cbff550c468e6fe135312f985, type: 2}
   goldMin: 5
   goldMax: 10
   fameMin: 1

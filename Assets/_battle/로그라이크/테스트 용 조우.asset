@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   encounterName: "\uD14C\uC2A4\uD2B8 \uC6A9 \uC870\uC6B0"
   enemies:
+  - {fileID: 11400000, guid: f03c4a41b1377a344abe48a95d694543, type: 2}
   - {fileID: 11400000, guid: 0f27338331a054f49a3b13397827cc59, type: 2}
-  - {fileID: 11400000, guid: 0f27338331a054f49a3b13397827cc59, type: 2}
-  - {fileID: 11400000, guid: 0f27338331a054f49a3b13397827cc59, type: 2}
+  - {fileID: 11400000, guid: f03c4a41b1377a344abe48a95d694543, type: 2}
