@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bb3ccbfd3b36624eaea4c8f187e64ea, type: 3}
+  m_Name: "\uB300\uAC80 \uD718\uB450\uB974\uAE30"
+  m_EditorClassIdentifier: 
+  cardID: E1
+  cardName: "\uB300\uAC80 \uD718\uB450\uB974\uAE30"
+  cardImage: {fileID: 0}
+  description: 
+  intentPredictionRange:
+  - {x: -1, y: -1}
+  - {x: -1, y: 0}
+  - {x: -1, y: 1}
+  - {x: -1, y: 2}
+  - {x: 1, y: -1}
+  - {x: 1, y: 0}
+  - {x: 1, y: 1}
+  - {x: 1, y: 2}
+  martialArtID: 0
+  requiredStats:
+    metal: 0
+    wood: 0
+    water: 0
+    fire: 0
+    earth: 0
+  actionSequence:
+  - rid: 8676522912166445122
+  references:
+    version: 2
+    RefIds:
+    - rid: 8676522912166445122
+      type: {class: AttackAction, ns: , asm: Assembly-CSharp}
+      data:
+        attackRange:
+        - {x: 1, y: 0}
+        - {x: -1, y: 0}
+        - {x: 0, y: 1}
+        - {x: 0, y: -1}
+        damage: 50
+        areaOfEffect:
+        - {x: -1, y: -1}
+        - {x: -1, y: 0}
+        - {x: -1, y: 1}
+        - {x: -1, y: 2}
+        - {x: 1, y: -1}
+        - {x: 1, y: 0}
+        - {x: 1, y: 1}
+        - {x: 1, y: 2}
+        motionID: 2
+        animationStateName: Attack
+        attackPatternType: 0

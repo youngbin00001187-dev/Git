@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bb3ccbfd3b36624eaea4c8f187e64ea, type: 3}
+  m_Name: "\uC0BC\uC7AC\uBCF4 1\uC2DD"
+  m_EditorClassIdentifier: 
+  cardID: 4
+  cardName: "\uC0BC\uC7AC\uBCF4 1\uC2DD"
+  cardImage: {fileID: 533887902083772910, guid: 6b8cf2f649b78534ba67731f007bcd26, type: 3}
+  description: "\uC0BC\uC7AC\uBCF4 1\uC2DD. \uADF8\uB0E5 \uAC77\uAE30\uB2E4."
+  intentPredictionRange:
+  - {x: 0, y: 0}
+  martialArtID: 0
+  requiredStats:
+    metal: 0
+    wood: 1
+    water: 0
+    fire: 0
+    earth: 0
+  actionSequence:
+  - rid: 8676522618060800070
+  appliedEffects:
+  - rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 8676522618060800070
+      type: {class: MoveAction, ns: , asm: Assembly-CSharp}
+      data:
+        movementRange:
+        - {x: 1, y: 0}
+        - {x: 0, y: 1}
+        - {x: -1, y: 0}
+        - {x: 0, y: -1}
+        moveSpeed: 8
+        motionID: 1
+        attachedEffects:
+        - effectType: 1
+          timing: 1
+          waitForCompletion: 0

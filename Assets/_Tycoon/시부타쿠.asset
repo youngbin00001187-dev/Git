@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce58356de26199f459bd917b8c7311d9, type: 3}
+  m_Name: "\uC2DC\uBD80\uD0C0\uCFE0"
+  m_EditorClassIdentifier: 
+  customerName: "\uC2DC\uBD80\uD0C0\uCFE0"
+  characterPortrait: {fileID: 0}
+  characterPrefab: {fileID: 2030619506907565948, guid: 5a9eee4540cb15f4e9deaf5a7a7f0be2, type: 3}
+  customerDescription: 
+  type: 1
+  enemyDataSO: {fileID: 11400000, guid: 870733626cd2e834390f4542ff69e254, type: 2}
+  orderPatterns:
+  - orderPhrase: "\uC6B0\uC120 \uBE68\uB9AC! \uBC30\uB97C \uCC44\uC6B8 \uC218 \uC788\uB294
+      \uAC78\uB85C!!"
+    desiredProperties:
+    - propertyName: "\uD3EC\uB9CC\uAC10"
+      requiredValue: 3
+      importance: 0
+    - propertyName: "\uBC0B\uBC0B\uD568"
+      requiredValue: 1
+      importance: 0
+    - propertyName: "\uBD84\uB0B4"
+      requiredValue: 2
+      importance: 1
+    - propertyName: "\uBD84\uB0B4"
+      requiredValue: 2
+      importance: 1
+    weight: 1
+    greatSuccessThreshold: 4
+    successThreshold: 3
+    normalThreshold: 2
+    greatSuccessGold: 100
+    greatSuccessReputation: 100
+    greatSuccessRewardItemId: 
+    successGold: 100
+    successReputation: 100
+    successRewardItemId: 
+    normalGold: 100
+    normalReputation: 100
+    normalRewardItemId: 
+    greatSuccessDialogue: "\uC644\uBCBD\uD574. \uB0B4\uAC00 \uBC14\uB77C\uB358 \uADF8\uB9DB\uC774\uC57C."
+    successDialogue: "\uC544\uC8FC \uC88B\uC544! ...\uC57D\uAC04 \uC544\uC27D\uC9C0\uB9CC."
+    normalDialogue: "\uADF8\uB7ED\uC800\uB7ED \uBA39\uC744 \uB9CC\uD558\uB124."
+    failureDialogue: "\uCD5C\uC545\uC774\uAD6C\uB9CC! \uB3C8\uC740 \uBABB \uB0B4!"

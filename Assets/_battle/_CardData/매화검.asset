@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bb3ccbfd3b36624eaea4c8f187e64ea, type: 3}
+  m_Name: "\uB9E4\uD654\uAC80"
+  m_EditorClassIdentifier: 
+  cardID: 6
+  cardName: "\uB9E4\uD654\uAC80"
+  cardImage: {fileID: 533887902083772910, guid: 5af292a7bcba6324a9ef975d661e9169, type: 3}
+  description: "\uB9E4\uD654\uAC80 \uC870\uAE08 \uAC15\uD560\uC9C0\uB3C4."
+  intentPredictionRange:
+  - {x: 0, y: 0}
+  - {x: 1, y: 0}
+  - {x: 0, y: 1}
+  - {x: -1, y: 0}
+  - {x: 0, y: -1}
+  martialArtID: 0
+  requiredStats:
+    metal: 0
+    wood: 1
+    water: 0
+    fire: 1
+    earth: 0
+  actionSequence:
+  - rid: 8676522618060800065
+  - rid: 8676522618060800066
+  appliedEffects: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 8676522618060800065
+      type: {class: MoveAction, ns: , asm: Assembly-CSharp}
+      data:
+        movementRange:
+        - {x: 1, y: 0}
+        - {x: 0, y: 1}
+        - {x: -1, y: 0}
+        - {x: 0, y: -1}
+        moveSpeed: 8
+        motionID: 1
+        attachedEffects: []
+    - rid: 8676522618060800066
+      type: {class: AttackAction, ns: , asm: Assembly-CSharp}
+      data:
+        attackRange:
+        - {x: 1, y: 0}
+        - {x: 0, y: 1}
+        - {x: -1, y: 0}
+        - {x: 0, y: -1}
+        damage: 30
+        areaOfEffect:
+        - {x: 1, y: 0}
+        - {x: 0, y: 1}
+        - {x: -1, y: 0}
+        - {x: 0, y: -1}
+        motionID: 2
+        animationStateName: Attack
+        attackPatternType: 0
+        additionalEffectTypes: 

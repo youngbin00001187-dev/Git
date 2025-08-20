@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2592c099d53bb8d43aae9d16620ead36, type: 3}
+  m_Name: "\uC608\uC2DC \uBCF4\uC2A4"
+  m_EditorClassIdentifier: 
+  enemyName: "\uC608\uC2DC \uBCF4\uC2A4"
+  enemyPrefab: {fileID: 2272630744910987935, guid: fa3147ab2751dcf4db798092bfce074c, type: 3}
+  maxHealth: 200
+  actionsPerTurn: 1
+  actionPattern:
+  - actionName: "\uB300\uAC80 \uD718\uB450\uB974\uAE30"
+    actionType: 1
+    movementType: 0
+    value: 0
+    referenceCard: {fileID: 11400000, guid: 6ccc2cfdeaaaf8846937675a82173f3d, type: 2}
+  - actionName: "\uC0BC\uC7AC\uBCF4"
+    actionType: 0
+    movementType: 0
+    value: 0
+    referenceCard: {fileID: 11400000, guid: 24dc737ab678fa4459cc5682f0494d9b, type: 2}
+  goldMin: 5
+  goldMax: 10
+  fameMin: 1
+  fameMax: 3
+  cardDrops: []
+  xinfaDrops: []
