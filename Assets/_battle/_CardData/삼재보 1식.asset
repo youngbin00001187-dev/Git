@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: "\uC0BC\uC7AC\uBCF4 1\uC2DD"
   m_EditorClassIdentifier: 
   cardID: 4
-  cardName: "\uC0BC\uC7AC\uBCF4 1\uC2DD"
+  cardName: 'Trinity Step I: Celestial'
   cardImage: {fileID: 533887902083772910, guid: 6b8cf2f649b78534ba67731f007bcd26, type: 3}
-  description: "\uC0BC\uC7AC\uBCF4 1\uC2DD. \uADF8\uB0E5 \uAC77\uAE30\uB2E4."
+  description: Move,Knockback
   intentPredictionRange:
   - {x: 0, y: 0}
   martialArtID: 0

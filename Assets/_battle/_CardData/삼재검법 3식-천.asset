@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: "\uC0BC\uC7AC\uAC80\uBC95 3\uC2DD-\uCC9C"
   m_EditorClassIdentifier: 
   cardID: 3
-  cardName: "\uC0BC\uC7AC\uAC80\uBC95 3\uC2DD-\uC778"
-  cardImage: {fileID: 0}
-  description: "\uC0BC\uC7AC \uAC80\uBC95 1\uC2DD - \uC9C0, \uADF8\uB0E5 \uCC0C\uB974\uAE30\uB2E4."
+  cardName: 'Trinity Blade III: Mortal'
+  cardImage: {fileID: 533887902083772910, guid: 80179364faf6dda4c8a4fad914a6becd, type: 3}
+  description: Attack,Aoe
   intentPredictionRange:
   - {x: 0, y: 0}
   martialArtID: 0
@@ -27,6 +27,7 @@ MonoBehaviour:
     earth: 1
   actionSequence:
   - rid: 8676522618060800069
+  appliedEffects: []
   references:
     version: 2
     RefIds:
@@ -46,3 +47,4 @@ MonoBehaviour:
         motionID: 2
         animationStateName: Attack
         attackPatternType: 0
+        attachedEffects: []

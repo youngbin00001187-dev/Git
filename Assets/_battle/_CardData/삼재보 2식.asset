@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: "\uC0BC\uC7AC\uBCF4 2\uC2DD"
   m_EditorClassIdentifier: 
   cardID: 5
-  cardName: "\uC0BC\uC7AC\uBCF4 2\uC2DD"
+  cardName: 'Trinity Step II: Terrestrial'
   cardImage: {fileID: 533887902083772910, guid: 3825f2938d0766d42911ca3844e48209, type: 3}
-  description: "\uC0BC\uC7AC\uBCF4 2\uC2DD. \uADF8\uB0E5 \uAC77\uAE30\uB2E4."
+  description: Move,Knockback
   intentPredictionRange:
   - {x: 0, y: 0}
   martialArtID: 0

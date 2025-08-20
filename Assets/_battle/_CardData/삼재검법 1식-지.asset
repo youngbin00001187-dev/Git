@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: "\uC0BC\uC7AC\uAC80\uBC95 1\uC2DD-\uC9C0"
   m_EditorClassIdentifier: 
   cardID: 1
-  cardName: "\uC0BC\uC7AC \uAC80\uBC95 1\uC2DD-\uC9C0"
+  cardName: 'Trinity Blade I: Celestial'
   cardImage: {fileID: 533887902083772910, guid: 80179364faf6dda4c8a4fad914a6becd, type: 3}
-  description: "\uC0BC\uC7AC \uAC80\uBC95 1\uC2DD - \uC9C0, \uADF8\uB0E5 \uAC00\uB85C
-    \uBC30\uAE30\uB2E4."
+  description: Attack
   intentPredictionRange:
   - {x: 0, y: 0}
   martialArtID: 0
@@ -46,4 +45,4 @@ MonoBehaviour:
         motionID: 2
         animationStateName: Attack
         attackPatternType: 0
-        additionalEffectTypes: 
+        attachedEffects: []

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: "\uB9E4\uD654\uAC80"
   m_EditorClassIdentifier: 
   cardID: 6
-  cardName: "\uB9E4\uD654\uAC80"
+  cardName: PetalBlade
   cardImage: {fileID: 533887902083772910, guid: 5af292a7bcba6324a9ef975d661e9169, type: 3}
-  description: "\uB9E4\uD654\uAC80 \uC870\uAE08 \uAC15\uD560\uC9C0\uB3C4."
+  description: Move,Attack,Aoe
   intentPredictionRange:
   - {x: 0, y: 0}
   - {x: 1, y: 0}
@@ -64,4 +64,4 @@ MonoBehaviour:
         motionID: 2
         animationStateName: Attack
         attackPatternType: 0
-        additionalEffectTypes: 
+        attachedEffects: []

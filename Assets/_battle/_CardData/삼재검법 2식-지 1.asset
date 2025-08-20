@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: "\uC0BC\uC7AC\uAC80\uBC95 2\uC2DD-\uC9C0 1"
   m_EditorClassIdentifier: 
   cardID: 2
-  cardName: "\uC0BC\uC7AC \uAC80\uBC95 2\uC2DD-\uCC9C"
+  cardName: 'Trinity Blade II: Terrestrial'
   cardImage: {fileID: 533887902083772910, guid: 340f1c7f3e301214d8d534284102c94a, type: 3}
-  description: "\uC0BC\uC7AC \uAC80\uBC95 2\uC2DD - \uCC9C, \uADF8\uB0E5 \uC138\uB85C
-    \uBC30\uAE30\uB2E4."
+  description: Attack
   intentPredictionRange:
   - {x: 0, y: 0}
   martialArtID: 0
@@ -28,6 +27,7 @@ MonoBehaviour:
     earth: 0
   actionSequence:
   - rid: 8676522618060800068
+  appliedEffects: []
   references:
     version: 2
     RefIds:
@@ -45,3 +45,4 @@ MonoBehaviour:
         motionID: 2
         animationStateName: Attack
         attackPatternType: 0
+        attachedEffects: []

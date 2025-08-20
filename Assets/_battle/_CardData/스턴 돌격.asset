@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: "\uC2A4\uD134 \uB3CC\uACA9"
   m_EditorClassIdentifier: 
   cardID: 4
-  cardName: "\uC2A4\uD134\uB3CC\uACA9"
+  cardName: 'Trinity Step III: Mortal'
   cardImage: {fileID: 533887902083772910, guid: 6b8cf2f649b78534ba67731f007bcd26, type: 3}
-  description: "\uC2A4\uD134 \uB3CC\uACA9"
+  description: Stun,Move,Knockback
   intentPredictionRange:
   - {x: 0, y: 0}
   martialArtID: 0
