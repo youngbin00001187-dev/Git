@@ -24,6 +24,7 @@ public class CardManager : MonoBehaviour
     public GameObject cardUIPrefab;
     public Transform handTransform;
     public Transform actionPanelTransform;
+    public CardDetailView cardDetailView; // <<< 여기에 한 줄 추가
 
     [Header("멀리건 UI")]
     public Button mulliganButton;
@@ -165,10 +166,8 @@ public class CardManager : MonoBehaviour
             return;
         }
 
-        // --- ▼▼▼ [핵심 수정] 로직 분기 처리 ▼▼▼ ---
         if (GameManager.Instance != null && GameManager.Instance.IsBonusTimeActive())
         {
-            // [분기 1] 보너스 타임: '캔슬' 시도
             if (GameManager.Instance.TryPerformCancel())
             {
                 Debug.Log("<color=purple>[CardManager] 캔슬 성공. 인터럽트 큐에 액션을 추가하고 다음 카드를 선택합니다.</color>");
@@ -184,14 +183,11 @@ public class CardManager : MonoBehaviour
                 }
                 discardPile.Add(selectedCardForTargeting);
 
-                // 즉시 다음 카드 자동 선택
                 SelectNextActionCard();
             }
-            // 캔슬 실패 시에는 아무것도 하지 않고 타겟팅 모드를 유지합니다.
         }
         else
         {
-            // [분기 2] 일반 상황: 일반 액션 큐에 추가
             Debug.Log("[CardManager] 일반 행동을 실행합니다.");
             StartCoroutine(ActionCoroutine(selectedCardForTargeting, clickedTile, selectedCardUIForTargeting));
         }
@@ -226,9 +222,7 @@ public class CardManager : MonoBehaviour
             if (EventManager.Instance != null) EventManager.Instance.RaisePlayerActionCompleted();
         }
 
-        // ▼▼▼ [핵심 수정] 일반 행동 후에도 CardManager가 직접 다음 카드를 선택합니다. ▼▼▼
         SelectNextActionCard();
-        // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
         yield return null;
     }
@@ -327,11 +321,13 @@ public class CardManager : MonoBehaviour
     public void HandleCardHoverEnter(CardDataSO cardData)
     {
         hoveredCardDataForPreview = cardData;
+        if (cardDetailView != null) cardDetailView.Show(cardData); // <<< 여기에 한 줄 추가
     }
 
     public void HandleCardHoverExit()
     {
         hoveredCardDataForPreview = null;
+        if (cardDetailView != null) cardDetailView.Hide(); // <<< 여기에 한 줄 추가
     }
 
     public int GetActionCardCount() { return actionCards.Count; }

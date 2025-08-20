@@ -77,10 +77,9 @@ public class SandevistanGhostSpawner : MonoBehaviour
 
         GameObject ghost = Instantiate(ghostPrefab, spawnPosition, spawnRotation);
         SpriteRenderer ghostRenderer = ghost.GetComponent<SpriteRenderer>();
-
+        ghost.transform.localScale = targetRenderer.transform.localScale;
         // 2. 현재 스프라이트와 상태 복사
         ghostRenderer.sprite = targetRenderer.sprite;
-        ghostRenderer.flipX = targetRenderer.flipX;
         ghostRenderer.sortingLayerID = targetRenderer.sortingLayerID;
         ghostRenderer.sortingOrder = targetRenderer.sortingOrder - 1;
 
