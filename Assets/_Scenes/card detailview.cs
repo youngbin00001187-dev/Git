@@ -1,73 +1,59 @@
+ï»¿using UnityEngine;
+
+ë„¤, ìŠ¤í¬ë¦½íŠ¸ë¥¼ ìš”ì²­í•˜ì‹  ê²ƒì„ í™•ì¸í–ˆìŠµë‹ˆë‹¤. ì´ì „ ë‹µë³€ì—ì„œ ì‹¤ìˆ˜ë¡œ ì´ë¯¸ì§€ë¥¼ ìƒì„±í–ˆìŠµë‹ˆë‹¤. ì£„ì†¡í•©ë‹ˆë‹¤.
+
+ìš”ì²­í•˜ì‹  ëŒ€ë¡œ ì¢Œìš° ì´ë™ ì†ë„ì— ë¹„ë¡€í•˜ì—¬ ì¢Œìš°ë¡œ ê¸°ìš¸ì–´ì§€ëŠ” í‹¸íŠ¸ ê¸°ëŠ¥ì„ ì¶”ê°€í•œ ìœ ë‹ˆí‹° ìŠ¤í¬ë¦½íŠ¸ì…ë‹ˆë‹¤.
+
+ğŸ“œ ìœ ë‹ˆí‹° í”Œë ˆì´ì–´ ì´ë™ ìŠ¤í¬ë¦½íŠ¸ (í‹¸íŠ¸ ê¸°ëŠ¥ ì¶”ê°€)
+C#
+
 using UnityEngine;
-using TMPro;
 
-/// <summary>
-/// Ä«µå »ó¼¼ Á¤º¸(ÀÌ¸§, ¼³¸í)¸¦ Ç¥½ÃÇÏ´Â UI¸¦ °ü¸®ÇÕ´Ï´Ù.
-/// È°¼ºÈ­µÇ¸é ¸¶¿ì½º Ä¿¼­¸¦ µû¶ó´Ù´Õ´Ï´Ù.
-/// </summary>
-public class CardDetailView : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI nameText;
-    [SerializeField] private TextMeshProUGUI descriptionText;
-    [SerializeField] private GameObject contentObject; // ÆĞ³Î ÀÚÃ¼¸¦ ²ô°í ÄÑ±â À§ÇÑ ÂüÁ¶
+    // âœ¨ ì—ë””í„°ì—ì„œ ì¡°ì ˆí•  ìˆ˜ ìˆëŠ” ë³€ìˆ˜ë“¤
+    [Header("Movement Settings")]
+    [SerializeField] private float moveSpeed = 5.0f; // ê¸°ë³¸ ì´ë™ ì†ë„
+    [SerializeField] private float slowModeSpeedMultiplier = 0.5f; // ì €ì† ëª¨ë“œ ì†ë„ ë°°ìœ¨ (0.5ëŠ” ì ˆë°˜ ì†ë„)
 
-    // ¡å¡å¡å ¿©±â¿¡ Ãß°¡ ¡å¡å¡å
-    [Header("¸¶¿ì½º ÃßÀû ¼³Á¤")]
-    [Tooltip("¸¶¿ì½º Ä¿¼­·ÎºÎÅÍ UI°¡ ¾ó¸¶³ª ¶³¾îÁ® Ç¥½ÃµÉÁö Á¤ÇÕ´Ï´Ù.")]
-    [SerializeField] private Vector2 followOffset = new Vector2(20f, -20f);
+    [Header("Tilt Settings")]
+    [SerializeField] private float maxTiltAngle = 15.0f; // ìµœëŒ€ ê¸°ìš¸ê¸° ê°ë„
+    [SerializeField] private float tiltSpeed = 5.0f; // ê¸°ìš¸ê¸°ê°€ ë¶€ë“œëŸ¬ì›Œì§€ëŠ” ì†ë„
 
-    private bool isFollowing = false; // ÇöÀç ¸¶¿ì½º¸¦ ÃßÀû ÁßÀÎÁö ¿©ºÎ
-    private RectTransform rectTransform; // À§Ä¡¸¦ ¿Å±æ UIÀÇ RectTransform
-    // ¡ã¡ã¡ã Ãß°¡ ¿Ï·á ¡ã¡ã¡ã
+    private float currentMoveSpeed;
 
-    private void Awake()
+    void Update()
     {
-        // ¡å¡å¡å ¿©±â¿¡ Ãß°¡ ¡å¡å¡å
-        // RectTransform ÄÄÆ÷³ÍÆ®¸¦ ¹Ì¸® Ã£¾ÆµÓ´Ï´Ù.
-        rectTransform = GetComponent<RectTransform>();
-        // ¡ã¡ã¡ã Ãß°¡ ¿Ï·á ¡ã¡ã¡ã
+        // ğŸ•¹ï¸ í‚¤ë³´ë“œ ì…ë ¥ ì²˜ë¦¬
+        float h = Input.GetAxis("Horizontal"); // ì¢Œìš° ë°©í–¥í‚¤ (A/D, Left/Right)
+        float v = Input.GetAxis("Vertical");   // ìƒí•˜ ë°©í–¥í‚¤ (W/S, Up/Down)
 
-        Hide();
-    }
+        Vector3 movement = new Vector3(h, 0f, v).normalized; // ëŒ€ê°ì„  ì´ë™ ì‹œ ì†ë„ ì¼ì •í•˜ê²Œ ìœ ì§€
 
-    // ¡å¡å¡å Update ÇÔ¼ö Ãß°¡ ¡å¡å¡å
-    private void Update()
-    {
-        // isFollowing »óÅÂÀÏ ¶§¸¸ ¸Å ÇÁ·¹ÀÓ À§Ä¡¸¦ °»½ÅÇÕ´Ï´Ù.
-        if (isFollowing)
+        // ğŸš€ ì´ë™ ì†ë„ ê³„ì‚°
+        // Shift í‚¤ê°€ ëˆŒë ¸ëŠ”ì§€ í™•ì¸í•˜ì—¬ í˜„ì¬ ì†ë„ ì„¤ì •
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
-            // ÇöÀç ¸¶¿ì½º À§Ä¡¿¡ ¿ÀÇÁ¼ÂÀ» ´õÇÑ °ªÀ¸·Î UI À§Ä¡¸¦ ¼³Á¤ÇÕ´Ï´Ù.
-            // UI Äµ¹ö½º°¡ Screen Space - Overlay ¸ğµåÀÏ ¶§ Àß ÀÛµ¿ÇÕ´Ï´Ù.
-            rectTransform.position = (Vector2)Input.mousePosition + followOffset;
+            currentMoveSpeed = moveSpeed * slowModeSpeedMultiplier;
         }
-    }
-    // ¡ã¡ã¡ã Ãß°¡ ¿Ï·á ¡ã¡ã¡ã
+        else
+        {
+            currentMoveSpeed = moveSpeed;
+        }
 
-    /// <summary>
-    /// Ä«µå µ¥ÀÌÅÍ¸¦ ¹Ş¾Æ¿Í UI ÅØ½ºÆ®¸¦ Ã¤¿ì°í ÆĞ³ÎÀ» º¸¿©Áİ´Ï´Ù.
-    /// </summary>
-    public void Show(CardDataSO cardData)
-    {
-        if (cardData == null) return;
+        // ğŸƒâ€â™‚ï¸ ìºë¦­í„° ì´ë™
+        transform.Translate(movement * currentMoveSpeed * Time.deltaTime, Space.World);
 
-        nameText.text = cardData.cardName;
-        descriptionText.text = cardData.description;
-        contentObject.SetActive(true);
+        // ğŸ¤¸â€â™‚ï¸ ì¢Œìš° í‹¸íŠ¸ (ê¸°ìš¸ê¸°) ê³„ì‚° ë° ì ìš©
+        // ëª©í‘œ ê¸°ìš¸ê¸° ê°ë„ ê³„ì‚°: ìˆ˜í‰ ì…ë ¥ê°’(h)ì— ìµœëŒ€ ê¸°ìš¸ê¸° ê°ë„ë¥¼ ê³±í•©ë‹ˆë‹¤.
+        float targetTilt = h * -maxTiltAngle;
 
-        // ¡å¡å¡å ¿©±â¿¡ Ãß°¡ ¡å¡å¡å
-        isFollowing = true; // ¸¶¿ì½º ÃßÀû ½ÃÀÛ
-        // ¡ã¡ã¡ã Ãß°¡ ¿Ï·á ¡ã¡ã¡ã
-    }
+        // í˜„ì¬ ê¸°ìš¸ê¸° ê°ë„: í˜„ì¬ íšŒì „ê°’ì˜ zì¶• ê°ë„ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
+        float currentTilt = transform.localRotation.eulerAngles.z;
+        if (currentTilt > 180) currentTilt -= 360; // 0~360 ë²”ìœ„ë¥¼ -180~180ìœ¼ë¡œ ë³€í™˜
 
-    /// <summary>
-    /// »ó¼¼ Á¤º¸ ÆĞ³ÎÀ» ¼û±é´Ï´Ù.
-    /// </summary>
-    public void Hide()
-    {
-        contentObject.SetActive(false);
-
-        // ¡å¡å¡å ¿©±â¿¡ Ãß°¡ ¡å¡å¡å
-        isFollowing = false; // ¸¶¿ì½º ÃßÀû ÁßÁö
-        // ¡ã¡ã¡ã Ãß°¡ ¿Ï·á ¡ã¡ã¡ã
+        // ëª©í‘œ ê°ë„ë¡œ ë¶€ë“œëŸ½ê²Œ íšŒì „
+        float newTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * tiltSpeed);
+        transform.localRotation = Quaternion.Euler(0, 0, newTilt);
     }
 }
