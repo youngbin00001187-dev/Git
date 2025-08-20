@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bb3ccbfd3b36624eaea4c8f187e64ea, type: 3}
+  m_Name: "\uB291\uB300 \uB3CC\uC9C4\uCC38"
+  m_EditorClassIdentifier: 
+  cardID: "\uB3CC\uC9C4\uCC38"
+  cardName: 
+  cardImage: {fileID: 0}
+  description: "\uB291\uB300 \uC2E4\uD5D8\uC6A9"
+  intentPredictionRange:
+  - {x: 0, y: 1}
+  - {x: 1, y: 1}
+  - {x: 0, y: 2}
+  - {x: 0, y: 0}
+  - {x: 1, y: 1}
+  martialArtID: 0
+  requiredStats:
+    metal: 0
+    wood: 0
+    water: 0
+    fire: 0
+    earth: 0
+  actionSequence: []
+  appliedEffects: []
+  references:
+    version: 2
+    RefIds: []
