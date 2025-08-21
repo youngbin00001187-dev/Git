@@ -21,7 +21,7 @@ MonoBehaviour:
     actionType: 1
     movementType: 0
     value: 0
-    referenceCard: {fileID: 11400000, guid: 24dc737ab678fa4459cc5682f0494d9b, type: 2}
+    referenceCard: {fileID: 11400000, guid: cc32ec38b89526c4fa4b91e246f11753, type: 2}
   - actionName: 
     actionType: 1
     movementType: 0

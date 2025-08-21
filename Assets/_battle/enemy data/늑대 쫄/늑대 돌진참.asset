@@ -17,11 +17,11 @@ MonoBehaviour:
   cardImage: {fileID: 0}
   description: "\uB291\uB300 \uC2E4\uD5D8\uC6A9"
   intentPredictionRange:
-  - {x: 0, y: 1}
-  - {x: 1, y: 1}
-  - {x: 0, y: 2}
+  - {x: 0, y: -1}
   - {x: 0, y: 0}
-  - {x: 1, y: 1}
+  - {x: 1, y: 0}
+  - {x: -1, y: 0}
+  - {x: 0, y: 1}
   martialArtID: 0
   requiredStats:
     metal: 0
@@ -29,8 +29,42 @@ MonoBehaviour:
     water: 0
     fire: 0
     earth: 0
-  actionSequence: []
+  actionSequence:
+  - rid: 6613284722654838852
+  - rid: 6613284722654838853
   appliedEffects: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 6613284722654838852
+      type: {class: MoveAction, ns: , asm: Assembly-CSharp}
+      data:
+        movementRange:
+        - {x: 1, y: 0}
+        - {x: 0, y: 1}
+        - {x: 0, y: -1}
+        - {x: -1, y: 0}
+        moveSpeed: 8
+        motionID: 1
+        attachedEffects:
+        - effectType: 1
+          timing: 0
+          waitForCompletion: 1
+        - effectType: 2
+          timing: 0
+          waitForCompletion: 0
+    - rid: 6613284722654838853
+      type: {class: AttackAction, ns: , asm: Assembly-CSharp}
+      data:
+        attackRange:
+        - {x: 0, y: 0}
+        damage: 0
+        areaOfEffect:
+        - {x: 1, y: 0}
+        - {x: 0, y: 1}
+        - {x: -1, y: 0}
+        - {x: 0, y: -1}
+        motionID: 2
+        animationStateName: Attack
+        attackPatternType: 0
+        attachedEffects: []
