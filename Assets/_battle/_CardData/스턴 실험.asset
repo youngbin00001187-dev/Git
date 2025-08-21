@@ -34,6 +34,14 @@ MonoBehaviour:
     - rid: 8676522618060800069
       type: {class: AttackAction, ns: , asm: Assembly-CSharp}
       data:
+        attachedEffects:
+        - effectType: 2
+          timing: 0
+          waitForCompletion: 0
+        vfxEffects:
+        - vfxId: 0
+          timing: 0
+          spawnType: 0
         attackRange:
         - {x: 1, y: 0}
         - {x: 0, y: 1}
@@ -45,7 +53,3 @@ MonoBehaviour:
         motionID: 2
         animationStateName: Attack
         attackPatternType: 0
-        attachedEffects:
-        - effectType: 2
-          timing: 0
-          waitForCompletion: 0

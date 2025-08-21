@@ -2207,7 +2207,7 @@ MonoBehaviour:
   defeatContinueButton: {fileID: 474386232}
   mulliganIconPrefab: {fileID: 390375434562056131, guid: 03f7f03ab2faba049bebf2331d7b5ae9, type: 3}
   mulliganIconParent: {fileID: 1108059154}
-  cancelIconPrefab: {fileID: 390375434562056131, guid: 03f7f03ab2faba049bebf2331d7b5ae9, type: 3}
+  cancelIconPrefab: {fileID: 390375434562056131, guid: 53dde7c1b689f1c46be4273b616cfa4a, type: 3}
   cancelIconParent: {fileID: 193681560}
 --- !u!1 &967756359
 GameObject:

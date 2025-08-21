@@ -39,6 +39,8 @@ MonoBehaviour:
     - rid: 8676522618060800065
       type: {class: MoveAction, ns: , asm: Assembly-CSharp}
       data:
+        attachedEffects: []
+        vfxEffects: []
         movementRange:
         - {x: 1, y: 0}
         - {x: 0, y: 1}
@@ -46,10 +48,11 @@ MonoBehaviour:
         - {x: 0, y: -1}
         moveSpeed: 8
         motionID: 1
-        attachedEffects: []
     - rid: 8676522618060800066
       type: {class: AttackAction, ns: , asm: Assembly-CSharp}
       data:
+        attachedEffects: []
+        vfxEffects: []
         attackRange:
         - {x: 1, y: 0}
         - {x: 0, y: 1}
@@ -64,4 +67,3 @@ MonoBehaviour:
         motionID: 2
         animationStateName: Attack
         attackPatternType: 0
-        attachedEffects: []

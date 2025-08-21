@@ -34,6 +34,11 @@ MonoBehaviour:
     - rid: 8676522618060800071
       type: {class: MoveAction, ns: , asm: Assembly-CSharp}
       data:
+        attachedEffects:
+        - effectType: 1
+          timing: 1
+          waitForCompletion: 1
+        vfxEffects: []
         movementRange:
         - {x: 1, y: 1}
         - {x: -1, y: 1}
@@ -41,7 +46,3 @@ MonoBehaviour:
         - {x: -1, y: -1}
         moveSpeed: 8
         motionID: 1
-        attachedEffects:
-        - effectType: 1
-          timing: 1
-          waitForCompletion: 0

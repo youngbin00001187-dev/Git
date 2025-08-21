@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7340784935670261965}
   - component: {fileID: 1270009862108870901}
   m_Layer: 5
-  m_Name: "\uBA40\uB9AC\uAC74 \uC544\uC774\uCF58"
+  m_Name: "\uCE94\uC2AC \uD504\uB9AC\uD3A9"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -158,7 +158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8117647, g: 0.1401075, b: 0.11764703, a: 1}
+  m_Color: {r: 0.3996278, g: 0.35292807, b: 0.9716981, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
