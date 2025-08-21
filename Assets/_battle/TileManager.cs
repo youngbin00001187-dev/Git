@@ -56,7 +56,7 @@ public class TileManager : MonoBehaviour
     }
 
 
-    public void ApplyDamageToArea(GameObject originTile, List<Vector2Int> areaOfEffect, int damage, UnitController attacker)
+public void ApplyDamageToArea(GameObject originTile, List<Vector2Int> areaOfEffect, int damage, UnitController attacker)
     {
         List<GameObject> hitTiles = new List<GameObject>();
         Vector2Int originPos = GetGridPositionFromTileName(originTile.name);
@@ -84,24 +84,18 @@ public class TileManager : MonoBehaviour
 
             if (victim != null && victim != attacker)
             {
-                // --- ▼▼▼ 이 부분이 핵심 수정 내용입니다 ▼▼▼ ---
-                int finalDamage = damage; // 기본 데미지로 시작
-
-                // 1. 공격자가 플레이어인지 확인합니다.
+                // 데미지 계산 로직
+                int finalDamage = damage;
                 if (attacker is PlayerController)
                 {
-                    // 2. GlobalManager에서 플레이어의 추가 능력치를 가져옵니다.
                     int equipmentBonus = GlobalManager.instance.playerAttackPower;
                     float simbeopMultiplier = GlobalManager.instance.simbeopDamageMultiplier;
-
-                    // 3. 새로운 공식으로 최종 데미지를 계산합니다.
                     finalDamage = Mathf.RoundToInt((damage + equipmentBonus) * (1f + simbeopMultiplier));
                     Debug.Log($"플레이어 데미지 계산: (기본:{damage} + 장비:{equipmentBonus}) * (1 + 심법:{simbeopMultiplier}) = 최종:{finalDamage}");
                 }
 
-                // 4. 최종 계산된 데미지를 입힙니다.
+                // 데미지 적용
                 victim.TakeImpact(finalDamage);
-                // --- ▲▲▲ 핵심 수정 내용 끝 ▲▲▲ ---
             }
         }
     }

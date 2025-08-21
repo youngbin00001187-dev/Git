@@ -27,9 +27,8 @@ public class AttackAction : GameAction
     [Header("공격 패턴 설정")]
     public E_AttackPatternType attackPatternType = E_AttackPatternType.Rotatable;
 
-    [Header("Attached Effects")]
-    [Tooltip("이 공격 액션에 부착될 효과와 발동 타이밍 목록입니다.")]
-    public List<ActionEffect> attachedEffects = new List<ActionEffect>();
+    // attachedEffects 리스트는 GameAction에 이미 있으므로 여기서 선언할 필요가 없습니다.
+    // public List<ActionEffect> attachedEffects = new List<ActionEffect>();
 
     public override List<GameObject> GetTargetableTiles(UnitController user)
     {
@@ -68,12 +67,12 @@ public class AttackAction : GameAction
         return tiles;
     }
 
-    // ▼▼▼ [핵심 수정] 함수의 이름과 접근 제한자를 변경했습니다. ▼▼▼
     protected override IEnumerator InternalExecute()
     {
         Debug.Log($"<color=red>ACTION: {actionUser.name} starts attacking {actionTargetTile.name}.</color>");
 
         // --- 타임라인 1: 액션 시작 즉시 (OnActionStart) ---
+        ExecuteVFXByTiming(EffectTiming.OnActionStart);
         yield return ExecuteEffectsByTiming(EffectTiming.OnActionStart);
 
         Animator animator = actionUser.GetComponent<Animator>();
@@ -86,6 +85,8 @@ public class AttackAction : GameAction
         // --- 핵심 데미지 처리 ---
         if (TileManager.Instance != null)
         {
+            // 실제 데미지 처리 직전에 'OnTargetImpact' VFX를 재생합니다.
+            ExecuteVFXByTiming(EffectTiming.OnTargetImpact);
             TileManager.Instance.ApplyDamageToArea(this.actionTargetTile, this.areaOfEffect, this.damage, this.actionUser);
         }
 
@@ -95,26 +96,9 @@ public class AttackAction : GameAction
         if (animator != null) { animator.SetInteger("motionID", 0); }
 
         // --- 타임라인 3: 액션 종료 후 (OnActionEnd) ---
+        ExecuteVFXByTiming(EffectTiming.OnActionEnd);
         yield return ExecuteEffectsByTiming(EffectTiming.OnActionEnd);
 
         Debug.Log($"<color=red>ACTION: {actionUser.name} attack completed.</color>");
-    }
-
-    /// <summary>
-    /// [최종 수정] 특정 타이밍에 해당하는 모든 효과를, 부모의 '보고 대기' 함수를 통해 실행합니다.
-    /// </summary>
-    private IEnumerator ExecuteEffectsByTiming(EffectTiming timing)
-    {
-        if (attachedEffects != null)
-        {
-            foreach (var effect in attachedEffects)
-            {
-                if (effect.timing == timing)
-                {
-                    // 부모(GameAction)에게 물려받은 '공통 대기 함수'를 호출합니다.
-                    yield return ExecuteEffectAndWait(effect);
-                }
-            }
-        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq; // .Any()를 사용하기 위해 추가
 using UnityEngine;
@@ -12,9 +13,6 @@ public class MoveAction : GameAction
     [Header("Settings")]
     public float moveSpeed = 8f;
     public int motionID = 1;
-
-    [Header("Attached Effects")]
-    public List<ActionEffect> attachedEffects = new List<ActionEffect>();
 
     public override List<GameObject> GetTargetableTiles(UnitController user)
     {
@@ -40,6 +38,8 @@ public class MoveAction : GameAction
     {
         Debug.Log($"<color=green>ACTION: {actionUser.name}이(가) {actionTargetTile.name}(으)로 이동/충돌을 시도합니다.</color>");
 
+        // --- 액션 시작 시점 ---
+        ExecuteVFXByTiming(EffectTiming.OnActionStart);
         yield return ExecuteEffectsByTiming(EffectTiming.OnActionStart);
 
         Vector2Int targetPos = GridManager.Instance.GetGridPositionFromTileObject(actionTargetTile);
@@ -48,16 +48,18 @@ public class MoveAction : GameAction
 
         if (unitOnTarget != null && unitOnTarget != actionUser)
         {
-            // ▼▼▼ [핵심 버그 수정] OnTargetImpact 효과 유무에 따라 분기 처리 ▼▼▼
+            // --- 충돌 시점 ---
+            // ▼▼▼ 이 부분이 지적에 따라 수정되었습니다 ▼▼▼
+            ExecuteVFXByTiming(EffectTiming.OnTargetImpact); // 더 이상 unitOnTarget을 넘기지 않습니다.
+                                                             // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
             bool hasImpactEffect = attachedEffects.Any(effect => effect.timing == EffectTiming.OnTargetImpact);
 
             if (hasImpactEffect)
             {
-                // [효과가 있을 경우] 기존 방식대로 비동기 처리 (밀어내는 건 정상 작동)
                 knockbackDone = false;
                 ExecuteEffectsByTiming_NoWait(EffectTiming.OnTargetImpact, () =>
                 {
-                    // 참고: 현재 구조에서는 넉백 후 리코일이 함께 실행됩니다.
                     actionUser.StartCoroutine(
                         actionUser.RecoilCoroutine(actionTargetTile.transform.position)
                     );
@@ -66,13 +68,11 @@ public class MoveAction : GameAction
             }
             else
             {
-                // [효과가 없을 경우] 직접 리코일 실행하여 버그 해결
                 actionUser.StartCoroutine(actionUser.RecoilCoroutine(actionTargetTile.transform.position));
             }
         }
 
         // --- 핵심 이동 로직 ---
-        // 재확인 로직 추가: OnTargetImpact 효과로 인해 타겟이 이동했을 수 있음
         UnitController unitOnTarget_AfterEffect = GridManager.Instance.GetUnitAtPosition(targetPos);
         if (unitOnTarget_AfterEffect == null && GridManager.Instance.IsTileWalkable(targetPos))
         {
@@ -84,27 +84,17 @@ public class MoveAction : GameAction
             if (animator != null) animator.SetInteger("motionID", 0);
         }
 
-        // --- 이동이 끝난 후 넉백 완료 대기 ---
         yield return new WaitUntil(() => knockbackDone);
 
+        // --- 이동 완료 시점 ---
+        ExecuteVFXByTiming(EffectTiming.AfterMove);
         yield return ExecuteEffectsByTiming(EffectTiming.AfterMove);
+
+        // --- 액션 종료 시점 ---
+        ExecuteVFXByTiming(EffectTiming.OnActionEnd);
         yield return ExecuteEffectsByTiming(EffectTiming.OnActionEnd);
 
         Debug.Log($"<color=green>ACTION: {actionUser.name}의 이동/충돌 액션이 완료되었습니다.</color>");
-    }
-
-    private IEnumerator ExecuteEffectsByTiming(EffectTiming timing)
-    {
-        if (attachedEffects != null)
-        {
-            foreach (var effect in attachedEffects)
-            {
-                if (effect.timing == timing)
-                {
-                    yield return ExecuteEffectAndWait(effect);
-                }
-            }
-        }
     }
 
     private void ExecuteEffectsByTiming_NoWait(EffectTiming timing, System.Action onComplete)

@@ -1,8 +1,33 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System; // Action (콜백)을 사용하기 위해 필요합니다.
+using System;
+
+// --- VFX를 위한 Enum과 구조체(설계도)를 여기에 정의합니다 ---
+
+/// <summary>
+/// VFX 생성 방식을 정의합니다.
+/// </summary>
+public enum E_VfxSpawnType
+{
+    PerTarget,  // 적중한 대상마다 이펙트 생성
+    AtCaster    // 사용자(시전자) 위치에 이펙트 1회 생성
+}
+
+/// <summary>
+/// VFX의 발동 타이밍과 방식을 정의하는 구조체입니다.
+/// </summary>
+[System.Serializable]
+public struct VFXEffect
+{
+    [Tooltip("VFXManager에 등록된 이펙트의 ID")]
+    public int vfxId;
+    [Tooltip("이 VFX가 발동될 타이밍")]
+    public EffectTiming timing;
+    [Tooltip("VFX 생성 방식 (타겟마다/시전자에게)")]
+    public E_VfxSpawnType spawnType;
+}
+
 
 [System.Serializable]
 public abstract class GameAction
@@ -10,40 +35,84 @@ public abstract class GameAction
     protected UnitController actionUser;
     protected GameObject actionTargetTile;
 
+    // ▼▼▼ 두 개의 독립적인 리스트를 사용합니다 ▼▼▼
+    [Header("부가 효과 (게임 로직)")]
+    [Tooltip("이 액션에 부착될 게임 효과 목록입니다. (예: 넉백, 기절)")]
+    public List<ActionEffect> attachedEffects = new List<ActionEffect>();
+
+    [Header("시각 효과 (VFX)")]
+    [Tooltip("이 액션이 실행될 때, 지정된 타이밍에 발동할 VFX 목록입니다.")]
+    public List<VFXEffect> vfxEffects = new List<VFXEffect>();
+    // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
     /// <summary>
-    /// [공통 함수] 특정 효과를 실행하고, 'waitForCompletion' 설정에 따라 완료될 때까지 기다립니다.
-    /// 이것이 바로 '팀장'이 '실무자'의 보고를 기다리는 핵심 기능입니다.
+    /// [공통 함수] 특정 타이밍의 게임 효과(attachedEffects)를 실행합니다.
     /// </summary>
-    /// <param name="effect">실행할 효과와 설정이 담긴 ActionEffect 구조체</param>
+    protected IEnumerator ExecuteEffectsByTiming(EffectTiming timing)
+    {
+        if (attachedEffects == null) yield break;
+        foreach (var effect in attachedEffects)
+        {
+            if (effect.timing == timing)
+            {
+                yield return ExecuteEffectAndWait(effect);
+            }
+        }
+    }
+
+    /// <summary>
+    /// [공통 함수] 단일 게임 효과를 실행하고 필요 시 완료될 때까지 기다립니다.
+    /// </summary>
     protected IEnumerator ExecuteEffectAndWait(ActionEffect effect)
     {
-        // 효과가 없으면 즉시 종료합니다.
         if (effect.effectType == EffectType.None)
         {
             yield break;
         }
 
-        // '기다릴 필요가 없는' 효과 (예: 독안개)의 경우
         if (!effect.waitForCompletion)
         {
-            // 실행만 하고 기다리지 않습니다. (내선 번호 없이 호출)
             actionUser.StartCoroutine(
                 EffectManager.Instance.ExecuteEffect(effect.effectType, actionUser, actionTargetTile, null)
             );
-            yield break; // 즉시 다음으로 넘어감
+            yield break;
         }
 
-        // '기다려야 하는' 효과 (예: 넉백)의 경우
-        bool isEffectFinished = false; // '전화 수신' 램프
-        Action callback = () => { isEffectFinished = true; }; // 내선 번호
-
-        // 실무자에게 '내선 번호'를 알려주며 실행을 요청합니다.
+        bool isEffectFinished = false;
+        Action callback = () => { isEffectFinished = true; };
         actionUser.StartCoroutine(
             EffectManager.Instance.ExecuteEffect(effect.effectType, actionUser, actionTargetTile, callback)
         );
-
-        // '내선 전화'가 올 때까지 기다립니다.
         yield return new WaitUntil(() => isEffectFinished);
+    }
+
+    /// <summary>
+    /// [신규 공통 함수] 특정 타이밍의 시각 효과(vfxEffects)를 실행합니다.
+    /// </summary>
+    protected void ExecuteVFXByTiming(EffectTiming timing, UnitController primaryTarget = null)
+    {
+        if (vfxEffects == null || vfxEffects.Count == 0 || VFXManager.Instance == null) return;
+
+        foreach (var vfx in vfxEffects)
+        {
+            if (vfx.timing == timing)
+            {
+                Vector3 spawnPos = Vector3.zero;
+                if (vfx.spawnType == E_VfxSpawnType.AtCaster)
+                {
+                    spawnPos = actionUser.transform.position;
+                }
+                else if (vfx.spawnType == E_VfxSpawnType.PerTarget)
+                {
+                    if (primaryTarget != null)
+                        spawnPos = primaryTarget.transform.position;
+                    else if (actionTargetTile != null)
+                        spawnPos = actionTargetTile.transform.position;
+                }
+
+                VFXManager.Instance.PlayHitEffect(spawnPos, vfx.vfxId);
+            }
+        }
     }
 
     public virtual void Prepare(UnitController user, GameObject target)
@@ -52,35 +121,17 @@ public abstract class GameAction
         this.actionTargetTile = target;
     }
 
-    /// <summary>
-    /// [공개 실행 함수] 액션을 실행하기 위한 진입점입니다.
-    /// 공통 선행 조건(스턴 체크 등)을 여기서 검사합니다.
-    /// </summary>
     public IEnumerator Execute()
     {
-        // 행동을 시작하기 전, 사용자의 상태를 가장 먼저 확인합니다.
         if (actionUser.currentState == UnitState.Stun)
         {
-            Debug.Log($"<color=orange>ACTION CANCELLED: {actionUser.name} is stunned.</color>");
-
-            // ▼▼▼ [최종 수정] 행동을 취소하는 대신, 상태를 정상으로 되돌립니다. ▼▼▼
             actionUser.SetState(UnitState.Normal);
-            // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-
-            // 스턴 상태일 경우, 아무 일도 하지 않고 코루틴을 즉시 종료합니다.
             yield break;
         }
-
-        // 선행 조건을 통과했다면, 자식 클래스에 구현된 실제 행동 로직을 실행합니다.
         yield return InternalExecute();
     }
 
-    /// <summary>
-    /// [내부 실행 함수] 각 자식 액션이 반드시 구현해야 할 실제 행동 로직입니다.
-    /// </summary>
     protected abstract IEnumerator InternalExecute();
-
     public abstract List<GameObject> GetTargetableTiles(UnitController user);
-
     public abstract List<GameObject> GetActionImpactTiles(UnitController user, GameObject targetTile);
 }
